@@ -1,0 +1,8 @@
+services:
+  fizzbuzz:
+    build: .
+    container_name: fizzbuzz
+    ports:
+      - "8000:80"
+    volumes:
+      - ./symfony:/var/www/html
