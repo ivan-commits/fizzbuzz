@@ -14,8 +14,6 @@ Une API REST écrite en Go qui expose une version paramétrable du jeu FizzBuzz,
 - Architecture modulaire (handlers, logique métier, stats, modèles)
 - Tests unitaires complets
 - Makefile pour automatiser les tâches
-- Build binaire dans `./bin/`
-
 ---
 
 ## 🗂️ Structure du projet
