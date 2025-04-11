@@ -1,6 +1,6 @@
-package domain
+package model
 
-type FizzBuzzRequest struct {
+type FizzBuzzDTO struct {
 	Int1  int
 	Int2  int
 	Limit int

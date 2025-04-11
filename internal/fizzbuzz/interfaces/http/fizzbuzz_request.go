@@ -7,8 +7,8 @@ import (
 	"github.com/gin-gonic/gin"
 )
 
-func ParseRequest(c *gin.Context) model.FizzBuzzRequest {
-	return model.FizzBuzzRequest{
+func NewFizzBuzzDTO(c *gin.Context) model.FizzBuzzDTO {
+	return model.FizzBuzzDTO{
 		Int1:  atoi(c.Query("int1")),
 		Int2:  atoi(c.Query("int2")),
 		Limit: atoi(c.Query("limit")),
