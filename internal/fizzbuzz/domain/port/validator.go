@@ -1,4 +1,4 @@
-package validator
+package port
 
 import "fizzbuzz/internal/fizzbuzz/domain/model"
 

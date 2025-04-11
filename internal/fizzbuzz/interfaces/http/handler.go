@@ -1,8 +1,7 @@
 package http
 
 import (
-	port "fizzbuzz/internal/fizzbuzz/domain/port"
-	"fizzbuzz/internal/fizzbuzz/domain/validator"
+	"fizzbuzz/internal/fizzbuzz/domain/port"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -11,10 +10,10 @@ import (
 type Handler struct {
 	Generator       port.Generator
 	StatsRepository port.StatsRepository
-	Validator       validator.Validator
+	Validator       port.Validator
 }
 
-func NewHandler(Generator port.Generator, StatsRepository port.StatsRepository, Validator validator.Validator) *Handler {
+func NewHandler(Generator port.Generator, StatsRepository port.StatsRepository, Validator port.Validator) *Handler {
 	return &Handler{Generator: Generator, StatsRepository: StatsRepository, Validator: Validator}
 }
 
