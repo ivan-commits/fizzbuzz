@@ -1,130 +1,71 @@
-# FizzBuzz API – Golang 1.22.2
+# 🧠 FizzBuzz API – Architecture DDD avec Go + Gin
 
-Une API REST écrite en Go qui expose une version paramétrable du jeu FizzBuzz, avec un endpoint de statistiques.
+Cette application expose une API REST permettant de générer une séquence FizzBuzz configurable.  
+Elle est structurée selon une architecture **DDD (Domain-Driven Design) simplifiée**, pour une meilleure lisibilité, testabilité et évolutivité.
 
 ---
 
-## 🔧 Fonctionnalités
+## 🚀 Endpoints
 
-- Endpoint `/fizzbuzz` paramétrable :
-  - `int1`, `int2`, `limit`, `str1`, `str2`
-  - Exemple : `3`, `5`, `100`, `"fizz"`, `"buzz"`
-- Endpoint `/stats` :
-  - Affiche la requête la plus fréquente avec son nombre de hits
-- Architecture modulaire (handlers, logique métier, stats, modèles)
-- Tests unitaires complets
-- Makefile pour automatiser les tâches
+### `GET /fizzbuzz`
+
+| Paramètre | Type   | Description                                          |
+|-----------|--------|------------------------------------------------------|
+| int1      | int    | Diviseur pour `str1`                                 |
+| int2      | int    | Diviseur pour `str2`                                 |
+| limit     | int    | Limite supérieure de la séquence (inclus)           |
+| str1      | string | Remplacement pour les multiples de `int1`           |
+| str2      | string | Remplacement pour les multiples de `int2`           |
+
+### `GET /stats`
+
+Renvoie la requête `/fizzbuzz` la plus fréquente avec son nombre d'appels.
+
 ---
 
-## 🗂️ Structure du projet
+## 🧱 Structure du projet (DDD)
 
-```
-fizzbuzz-go/
-├── cmd/server/          # main.go + router
+```bash
+fizzbuzz/
+├── cmd/                          # Point d'entrée (main.go)
+│   └── server/
 ├── internal/
-│   ├── fizzbuzz/        # logique métier
-│   ├── handler/         # handlers HTTP
-│   └── stats/           # stats en mémoire
-├── pkg/model/           # struct FizzBuzzRequest
-├── bin/                 # dossier de build (créé par make build)
-├── go.mod / go.sum
-├── Makefile
+│   └── fizzbuzz/
+│       ├── domain/               # Modèle métier pur (structs, interfaces)
+│       ├── application/          # Orchestration métier + implémentations
+│       └── interfaces/
+│           └── http/             # Adaptateurs HTTP (handlers, parsing)
+├── go.mod
 └── README.md
 ```
 
 ---
 
-## 🚀 Lancer l'application
+## 📁 Rôle de chaque dossier
 
-### Méthode 1 : exécution directe
+| Dossier                        | Rôle                                                                 |
+|-------------------------------|----------------------------------------------------------------------|
+| `cmd/`                         | Contient les exécutables de l’app (ex: API HTTP)                    |
+| `domain/`                      | Définit les modèles métier et interfaces (pas de dépendance externe)|
+| `application/`                | Contient l’orchestration métier et les implémentations concrètes    |
+| `interfaces/http/`            | Gère les requêtes entrantes (HTTP avec Gin)                         |
+
+---
+
+## ✅ Principes appliqués
+
+- **SOLID** : séparation des responsabilités, inversion des dépendances
+- **DDD** : chaque couche a un rôle précis, découplé
+- **Testabilité** : toutes les couches sont injectables et testables
+
+---
+
+## ▶️ Lancer le projet
 
 ```bash
 go run ./cmd/server
 ```
 
-### Méthode 2 : avec Makefile
-
-```bash
-make run      # Lance le serveur
-```
-
 ---
 
-## 📦 Endpoints
-
-### GET `/fizzbuzz`
-
-| Paramètre | Type   | Description                  |
-|-----------|--------|------------------------------|
-| int1      | int    | multiple remplacé par str1   |
-| int2      | int    | multiple remplacé par str2   |
-| limit     | int    | borne supérieure             |
-| str1      | string | mot à afficher pour int1     |
-| str2      | string | mot à afficher pour int2     |
-
-**Exemple** :
-
-```bash
-curl "http://localhost:8000/fizzbuzz?int1=3&int2=5&limit=15&str1=fizz&str2=buzz"
-```
-
-**Réponse** :
-
-```json
-["1","2","fizz","4","buzz","fizz","7","8","fizz","buzz","11","fizz","13","14","fizzbuzz"]
-```
-
----
-
-### GET `/stats`
-
-Renvoie la combinaison la plus utilisée et son nombre de hits.
-
-```bash
-curl http://localhost:8000/stats
-```
-
-**Réponse** :
-
-```json
-{
-  "request": {
-    "int1": 3,
-    "int2": 5,
-    "limit": 15,
-    "str1": "fizz",
-    "str2": "buzz"
-  },
-  "hits": 7
-}
-```
-
----
-
-## 🧪 Tests
-
-Lance tous les tests avec :
-
-```bash
-make test
-```
-
-Cela couvre :
-- La logique FizzBuzz (`internal/fizzbuzz`)
-- Le comptage des stats (`internal/stats`)
-- Les handlers HTTP (`internal/handler`)
-- Le routeur (`cmd/server`)
-- La structure du modèle (`pkg/model`)
-
-
-## 📌 Prérequis
-
-- Go ≥ 1.22.2
-- `make` installé (pour utiliser le Makefile, sinon les commandes Go classiques suffisent)
-
----
-
-## 📄 Licence
-
-Libre d’utilisation, open-source pour usage technique ou démonstration.
-
+Tu veux une version avec `Makefile`, tests, Docker ou Swagger ? Je peux te générer tout ça.

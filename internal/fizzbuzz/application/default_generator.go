@@ -1,11 +1,13 @@
-package fizzbuzz
+package application
 
 import (
-	"fizzbuzz/pkg/model"
+	domain "fizzbuzz/internal/fizzbuzz/domain/model"
 	"strconv"
 )
 
-func Generate(req model.FizzBuzzRequest) []string {
+type DefaultGenerator struct{}
+
+func (dg *DefaultGenerator) Generate(req domain.FizzBuzzRequest) []string {
 	res := make([]string, 0, req.Limit)
 	for i := 1; i <= req.Limit; i++ {
 		switch {
