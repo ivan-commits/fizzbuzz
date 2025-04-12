@@ -1,71 +1,78 @@
-# 🧠 FizzBuzz API – Architecture DDD avec Go + Gin
+# 🧠 FizzBuzz API – Go + Gin (DDD, Docker, Redis)
 
-Cette application expose une API REST permettant de générer une séquence FizzBuzz configurable.  
-Elle est structurée selon une architecture **DDD (Domain-Driven Design) simplifiée**, pour une meilleure lisibilité, testabilité et évolutivité.
+Une API REST extensible et testable pour générer dynamiquement des séquences FizzBuzz.
 
 ---
 
 ## 🚀 Endpoints
 
-### `GET /fizzbuzz`
+- `GET /fizzbuzz`  
+  ➤ Génère la séquence FizzBuzz selon vos paramètres :
 
-| Paramètre | Type   | Description                                          |
-|-----------|--------|------------------------------------------------------|
-| int1      | int    | Diviseur pour `str1`                                 |
-| int2      | int    | Diviseur pour `str2`                                 |
-| limit     | int    | Limite supérieure de la séquence (inclus)           |
-| str1      | string | Remplacement pour les multiples de `int1`           |
-| str2      | string | Remplacement pour les multiples de `int2`           |
+  | Paramètre | Type   | Description                         |
+  |-----------|--------|-------------------------------------|
+  | int1      | int    | Diviseur pour `str1`                |
+  | int2      | int    | Diviseur pour `str2`                |
+  | limit     | int    | Limite supérieure (incluse)         |
+  | str1      | string | Remplace les multiples de `int1`    |
+  | str2      | string | Remplace les multiples de `int2`    |
 
-### `GET /stats`
-
-Renvoie la requête `/fizzbuzz` la plus fréquente avec son nombre d'appels.
+- `GET /stats`  
+  ➤ Retourne la requête FizzBuzz la plus fréquente + nombre d'appels.
 
 ---
 
-## 🧱 Structure du projet (DDD)
+## 🧱 Structure DDD
 
-```bash
-fizzbuzz/
-├── cmd/                          # Point d'entrée (main.go)
-│   └── server/
-├── internal/
-│   └── fizzbuzz/
-│       ├── domain/               # Modèle métier pur (structs, interfaces)
-│       ├── application/          # Orchestration métier + implémentations
-│       └── interfaces/
-│           └── http/             # Adaptateurs HTTP (handlers, parsing)
-├── go.mod
-└── README.md
+```
+internal/
+├── fizzbuzz/
+│   ├── domain/        # Interfaces métier (contract) & DTOs
+│   ├── usecase/       # Logique métier implémentée
+│   ├── adapter/redis/ # Persistance Redis (Stats)
+│   └── interface/
+│       └── http/
+│           ├── handler/ # Handlers REST
+│           └── mapper/  # Mapping HTTP <-> Domain
 ```
 
 ---
 
-## 📁 Rôle de chaque dossier
-
-| Dossier                        | Rôle                                                                 |
-|-------------------------------|----------------------------------------------------------------------|
-| `cmd/`                         | Contient les exécutables de l’app (ex: API HTTP)                    |
-| `domain/`                      | Définit les modèles métier et interfaces (pas de dépendance externe)|
-| `application/`                | Contient l’orchestration métier et les implémentations concrètes    |
-| `interfaces/http/`            | Gère les requêtes entrantes (HTTP avec Gin)                         |
-
----
-
-## ✅ Principes appliqués
-
-- **SOLID** : séparation des responsabilités, inversion des dépendances
-- **DDD** : chaque couche a un rôle précis, découplé
-- **Testabilité** : toutes les couches sont injectables et testables
-
----
-
-## ▶️ Lancer le projet
+## 🐳 Docker
 
 ```bash
-go run ./cmd/server
+docker compose up --build
 ```
+
+Redis écoute sur `localhost:6379`, l’API sur `localhost:8000`.
 
 ---
 
-Tu veux une version avec `Makefile`, tests, Docker ou Swagger ? Je peux te générer tout ça.
+## ⚙️ Production
+
+- `vm.overcommit_memory=1` recommandé pour Redis
+- `GIN_MODE=release` (déjà injecté via `docker-compose.yml`)
+- Logging prévu pour toutes les erreurs critiques
+
+---
+
+## ✅ Tests
+
+```bash
+go test ./...
+```
+
+Tous les tests unitaires et intégration sont couverts (handlers, usecase, Redis, mapping...).
+
+---
+
+## 📦 Configuration
+
+Valeurs centralisées dans `config/config.go` :
+```go
+const (
+	DefaultPort = ":8000"
+	DefaultRedisAddr = "redis:6379"
+	DefaultRedisDB = 1
+)
+```
