@@ -1,25 +1,26 @@
-package http
+package handler
 
 import (
-	"fizzbuzz/internal/fizzbuzz/domain/port"
+	"fizzbuzz/internal/fizzbuzz/domain/contract"
+	"fizzbuzz/internal/fizzbuzz/handler/http/mapper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
 )
 
 type Handler struct {
-	Generator       port.Generator
-	StatsRepository port.StatsRepository
-	Validator       port.Validator
+	Generator       contract.Generator
+	StatsRepository contract.StatsRepository
+	Validator       contract.Validator
 }
 
-func NewHandler(Generator port.Generator, StatsRepository port.StatsRepository, Validator port.Validator) *Handler {
+func NewHandler(Generator contract.Generator, StatsRepository contract.StatsRepository, Validator contract.Validator) *Handler {
 	return &Handler{Generator: Generator, StatsRepository: StatsRepository, Validator: Validator}
 }
 
 func (h *Handler) HandleFizzbuzz(c *gin.Context) {
 
-	dto := NewFizzBuzzDTO(c)
+	dto := mapper.NewFizzBuzzDTO(c)
 	err := h.Validator.Validate(dto)
 
 	if err != nil {
@@ -29,9 +30,9 @@ func (h *Handler) HandleFizzbuzz(c *gin.Context) {
 
 	result := h.Generator.Generate(dto)
 
-	res := NewFizzBuzzResponse(dto, result)
+	res := mapper.NewFizzBuzzResponse(dto, result)
 
-	key := CacheKey(dto)
+	key := mapper.GenerateCacheKey(dto)
 
 	err = h.StatsRepository.IncrementKey(key)
 
@@ -51,7 +52,7 @@ func (h *Handler) HandleStats(c *gin.Context) {
 		return
 	}
 
-	sr := NewStatsResponse(key, count)
+	sr := mapper.NewStatsResponse(key, count)
 
 	c.JSON(http.StatusOK, sr)
 }

@@ -1,4 +1,4 @@
-package port
+package contract
 
 type StatsRepository interface {
 	IncrementKey(key string) error

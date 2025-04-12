@@ -1,4 +1,4 @@
-package http
+package mapper
 
 import (
 	model "fizzbuzz/internal/fizzbuzz/domain/model"
@@ -10,7 +10,7 @@ type StatsReponse struct {
 	Count int    `json:"count"`
 }
 
-func CacheKey(r model.FizzBuzzDTO) string {
+func GenerateCacheKey(r model.FizzBuzzDTO) string {
 	return fmt.Sprintf("int1=%d&int2=%d&limit=%d&str1=%s&str2=%s",
 		r.Int1, r.Int2, r.Limit, r.Str1, r.Str2)
 }

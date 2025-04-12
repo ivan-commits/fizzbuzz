@@ -1,4 +1,4 @@
-package port
+package contract
 
 import "fizzbuzz/internal/fizzbuzz/domain/model"
 

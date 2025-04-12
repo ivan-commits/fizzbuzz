@@ -1,4 +1,4 @@
-package http
+package mapper
 
 import (
 	model "fizzbuzz/internal/fizzbuzz/domain/model"

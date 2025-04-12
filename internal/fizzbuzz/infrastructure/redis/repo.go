@@ -12,9 +12,9 @@ type RedisStatsRepository struct {
 
 var ctx = context.Background()
 
-func New(addr string) *RedisStatsRepository {
+func New(addr string, db int) *RedisStatsRepository {
 	return &RedisStatsRepository{
-		client: redis.NewClient(&redis.Options{Addr: addr}),
+		client: redis.NewClient(&redis.Options{Addr: addr, DB: db}),
 	}
 }
 
