@@ -2,7 +2,7 @@ package main
 
 import (
 	"fizzbuzz/cmd/router"
-	redisrepo "fizzbuzz/internal/fizzbuzz/infrastructure/redis"
+	redisrepo "fizzbuzz/internal/fizzbuzz/adapter/redis"
 	"fizzbuzz/internal/fizzbuzz/usecase"
 )
 
