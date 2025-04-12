@@ -2,7 +2,7 @@ package router
 
 import (
 	"fizzbuzz/internal/fizzbuzz/domain/contract"
-	"fizzbuzz/internal/fizzbuzz/handler/http/handler"
+	"fizzbuzz/internal/fizzbuzz/interface/http/handler"
 
 	"github.com/gin-gonic/gin"
 )

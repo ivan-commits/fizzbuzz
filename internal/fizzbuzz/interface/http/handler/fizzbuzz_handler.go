@@ -2,7 +2,7 @@ package handler
 
 import (
 	"fizzbuzz/internal/fizzbuzz/domain/contract"
-	"fizzbuzz/internal/fizzbuzz/handler/http/mapper"
+	"fizzbuzz/internal/fizzbuzz/interface/http/mapper"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
