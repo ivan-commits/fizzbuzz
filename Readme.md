@@ -76,3 +76,17 @@ const (
 	DefaultRedisDB = 1
 )
 ```
+
+## 🛠️ Makefile
+
+Commandes utiles :
+
+```bash
+make run           # Lance l'app localement (Go)
+make test          # Lance tous les tests
+make up            # Build + démarre l'app et Redis via Docker
+make down          # Stoppe proprement les services
+make kill          # Forcément supprime les containers liés à Redis/Fizzbuzz
+make logs          # Affiche les logs des services Docker
+make redis-cli     # Ouvre un shell Redis dans le container
+```
