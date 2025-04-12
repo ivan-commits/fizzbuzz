@@ -84,9 +84,9 @@ Commandes utiles :
 ```bash
 make run           # Lance l'app localement (Go)
 make test          # Lance tous les tests
-make up            # Build + démarre l'app et Redis via Docker
-make down          # Stoppe proprement les services
-make kill          # Forcément supprime les containers liés à Redis/Fizzbuzz
+make up            # Démarre l'app et Redis via Docker
+make down          # Stoppe les services
+make kill          # Supprime containers, volumes, images et orphelins
 make logs          # Affiche les logs des services Docker
 make redis-cli     # Ouvre un shell Redis dans le container
 ```
