@@ -1,6 +1,7 @@
 package handler
 
 import (
+	"context"
 	"errors"
 	"fizzbuzz/internal/fizzbuzz/domain/model"
 	"net/http"
@@ -21,12 +22,12 @@ func (m *MockGenerator) Generate(dto model.FizzBuzzDTO) []string {
 
 type MockStatsRepository struct{ mock.Mock }
 
-func (m *MockStatsRepository) IncrementKey(key string) error {
+func (m *MockStatsRepository) IncrementKey(ctx context.Context, key string) error {
 	args := m.Called(key)
 	return args.Error(0)
 }
 
-func (m *MockStatsRepository) GetMostUsedKey() (string, int, error) {
+func (m *MockStatsRepository) GetMostUsedKey(ctx context.Context) (string, int, error) {
 	args := m.Called()
 	return args.String(0), args.Int(1), args.Error(2)
 }

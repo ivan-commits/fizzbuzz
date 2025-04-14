@@ -3,7 +3,6 @@ package redisrepo
 import (
 	"context"
 	"fizzbuzz/config"
-	"fmt"
 	"testing"
 
 	"github.com/stretchr/testify/assert"
@@ -11,7 +10,7 @@ import (
 
 func TestRedisStatsRepository(t *testing.T) {
 	r := New(config.LocalHostRedisAddr, config.AlternateRedisTestDB)
-
+	ctx := context.Background()
 	type testCase struct {
 		name        string
 		prepare     func()
@@ -23,7 +22,7 @@ func TestRedisStatsRepository(t *testing.T) {
 		{
 			name: "single key incremented once",
 			prepare: func() {
-				r.IncrementKey("test:key1")
+				r.IncrementKey(ctx, "test:key1")
 			},
 			expectKey:   "test:key1",
 			expectCount: 1,
@@ -31,21 +30,21 @@ func TestRedisStatsRepository(t *testing.T) {
 		{
 			name: "key incremented multiple times",
 			prepare: func() {
-				r.IncrementKey("test:key2")
-				r.IncrementKey("test:key2")
-				r.IncrementKey("test:key2")
+				r.IncrementKey(ctx, "test:key2")
+				r.IncrementKey(ctx, "test:key2")
+				r.IncrementKey(ctx, "test:key2")
 			},
 			expectKey:   "test:key2",
 			expectCount: 3,
 		},
 	}
 
-	clearTestKeys(r, "test")
+	clearTestKeys(r, "test", ctx)
 
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 			tt.prepare()
-			key, count, err := r.GetMostUsedKey()
+			key, count, err := r.GetMostUsedKey(ctx)
 			assert.NoError(t, err)
 			assert.Equal(t, tt.expectKey, key)
 			assert.Equal(t, tt.expectCount, count)
@@ -53,10 +52,9 @@ func TestRedisStatsRepository(t *testing.T) {
 	}
 }
 
-func clearTestKeys(r *RedisStatsRepository, prefix string) {
-	keys, _ := r.client.Keys(context.Background(), prefix+"*").Result()
-	fmt.Println(keys)
+func clearTestKeys(r *RedisStatsRepository, prefix string, ctx context.Context) {
+	keys, _ := r.client.Keys(ctx, prefix+"*").Result()
 	if len(keys) > 0 {
-		r.client.Del(context.Background(), keys...)
+		r.client.Del(ctx, keys...)
 	}
 }

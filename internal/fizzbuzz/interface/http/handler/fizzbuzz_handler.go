@@ -34,7 +34,7 @@ func (h *Handler) HandleFizzbuzz(c *gin.Context) {
 
 	key := mapper.GenerateCacheKey(dto)
 
-	err = h.StatsRepository.IncrementKey(key)
+	err = h.StatsRepository.IncrementKey(c, key)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})
@@ -45,7 +45,7 @@ func (h *Handler) HandleFizzbuzz(c *gin.Context) {
 }
 
 func (h *Handler) HandleStats(c *gin.Context) {
-	key, count, err := h.StatsRepository.GetMostUsedKey()
+	key, count, err := h.StatsRepository.GetMostUsedKey(c)
 
 	if err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

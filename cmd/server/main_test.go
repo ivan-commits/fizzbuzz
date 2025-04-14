@@ -1,6 +1,7 @@
 package main
 
 import (
+	"context"
 	"net/http"
 	"net/http/httptest"
 	"testing"
@@ -13,11 +14,11 @@ import (
 
 type MockStatsRepository struct{}
 
-func (ms MockStatsRepository) IncrementKey(key string) error {
+func (ms MockStatsRepository) IncrementKey(ctx context.Context, key string) error {
 	return nil
 }
 
-func (ms MockStatsRepository) GetMostUsedKey() (string, int, error) {
+func (ms MockStatsRepository) GetMostUsedKey(ctx context.Context) (string, int, error) {
 	return "key", 2, nil
 }
 

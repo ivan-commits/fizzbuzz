@@ -10,19 +10,17 @@ type RedisStatsRepository struct {
 	client *redis.Client
 }
 
-var ctx = context.Background()
-
 func New(addr string, db int) *RedisStatsRepository {
 	return &RedisStatsRepository{
 		client: redis.NewClient(&redis.Options{Addr: addr, DB: db}),
 	}
 }
 
-func (r *RedisStatsRepository) IncrementKey(key string) error {
+func (r *RedisStatsRepository) IncrementKey(ctx context.Context, key string) error {
 	return r.client.Incr(ctx, key).Err()
 }
 
-func (r *RedisStatsRepository) GetMostUsedKey() (string, int, error) {
+func (r *RedisStatsRepository) GetMostUsedKey(ctx context.Context) (string, int, error) {
 	keys, err := r.client.Keys(ctx, "*").Result()
 
 	if err != nil {
