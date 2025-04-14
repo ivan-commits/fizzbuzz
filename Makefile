@@ -1,7 +1,5 @@
 # Makefile – FizzBuzz API
 
-APP_PORT ?= 8000
-
 run:
 	go run ./cmd/server
 

@@ -8,7 +8,8 @@ import (
 )
 
 func NewRouter(g contract.Generator, s contract.StatsRepository, v contract.Validator) *gin.Engine {
-	r := gin.Default()
+	r := gin.New()
+	r.Use(gin.Logger(), gin.Recovery())
 
 	Handler := handler.NewHandler(g, s, v)
 
