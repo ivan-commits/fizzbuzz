@@ -1,24 +1,24 @@
 # 🧠 FizzBuzz API – Go + Gin (DDD, Docker, Redis)
 
-Une API REST extensible et testable pour générer dynamiquement des séquences FizzBuzz.
+An extensible and testable REST API to dynamically generate FizzBuzz sequences.
 
 ---
 
 ## 🚀 Endpoints
 
 - `GET /fizzbuzz`  
-  ➤ Génère la séquence FizzBuzz selon vos paramètres :
+  ➤ Generates the FizzBuzz sequence according to your settings:
 
-  | Paramètre | Type   | Description                         |
+  | Parameter | Type   | Description                         |
   |-----------|--------|-------------------------------------|
-  | int1      | int    | Diviseur pour `str1`                |
-  | int2      | int    | Diviseur pour `str2`                |
-  | limit     | int    | Limite supérieure (incluse)         |
-  | str1      | string | Remplace les multiples de `int1`    |
-  | str2      | string | Remplace les multiples de `int2`    |
+  | int1      | int    | Divider for `str1`                |
+  | int2      | int    | Divider for `str2`                |
+  | limit     | int    | Upper limit (inclusive)         |
+  | str1      | string | Replaces multiples of `int1`    |
+  | str2      | string | Replaces multiples of `int2`    |
 
   
-  ➤ Réponse :
+  ➤ Response :
 ```json
 {
   "response": ["1", "2", "fizz", "4", "buzz", "fizz", ...]
@@ -26,7 +26,7 @@ Une API REST extensible et testable pour générer dynamiquement des séquences 
 ```
 
 - `GET /stats`  
-  ➤ Retourne la requête FizzBuzz la plus fréquente + nombre d'appels.
+  ➤ Returns the most frequent FizzBuzz query + number of calls.
   
   ➤ Response :
 ```json
@@ -42,9 +42,9 @@ Une API REST extensible et testable pour générer dynamiquement des séquences 
 ```
 internal/
 ├── fizzbuzz/
-│   ├── domain/        # Interfaces métier (contract) & DTOs
-│   ├── usecase/       # Logique métier implémentée
-│   ├── adapter/redis/ # Persistance Redis (Stats)
+│   ├── domain/        # Business interfaces (contract) & DTOs
+│   ├── usecase/       # Business logic implemented
+│   ├── adapter/redis/ # Redis Persistence (Stats)
 │   └── interface/
 │       └── http/
 │           ├── handler/ # Handlers REST
@@ -59,15 +59,14 @@ internal/
 docker compose up --build
 ```
 
-Redis écoute sur `localhost:6379`, l’API sur `localhost:8000`.
+Redis listens on `localhost:6379`, the API on `localhost:8000`.
 
 ---
 
 ## ⚙️ Production
 
 - `vm.overcommit_memory=1` recommandé pour Redis
-- `GIN_MODE=release` (déjà injecté via `docker-compose.yml`)
-- Logging prévu pour toutes les erreurs critiques
+- `GIN_MODE=release` (already injected in `docker-compose.yml`)
 
 ---
 
@@ -77,7 +76,7 @@ Redis écoute sur `localhost:6379`, l’API sur `localhost:8000`.
 go test ./...
 ```
 
-Tous les tests unitaires et intégration sont couverts (handlers, usecase, Redis, mapping...).
+All unit and integration tests are covered (handlers, usecase, Redis, mapping...).
 
 ---
 
