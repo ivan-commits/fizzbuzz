@@ -3,14 +3,14 @@
 
     WORKDIR /app
     
-    # Copie des fichiers de dépendances uniquement
+    # Copy dependency files only
     COPY go.mod go.sum ./
     RUN go mod download
     
-    # Copie du code source
+    # Copy source file
     COPY . .
     
-    # Compilation du binaire
+    # Compiling the binary
     RUN go build -o fizzbuzz ./cmd/server
     
 # --- Stage 2 : Runtime ---
@@ -18,10 +18,10 @@
     
     WORKDIR /app
     
-    # Copie du binaire compilé
+    # Copy compiled binary
     COPY --from=builder /app/fizzbuzz .
     
-    # Utilisateur non-root (optionnel mais recommandé)
+    # Non-root user
     RUN adduser -D -u 10001 fizzbuzz
     USER fizzbuzz
     
