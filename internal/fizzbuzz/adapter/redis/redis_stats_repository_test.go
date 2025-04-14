@@ -2,6 +2,7 @@ package redisrepo
 
 import (
 	"context"
+	"fizzbuzz/config"
 	"fmt"
 	"testing"
 
@@ -9,7 +10,7 @@ import (
 )
 
 func TestRedisStatsRepository(t *testing.T) {
-	r := New("localhost:6379", 2)
+	r := New(config.LocalHostRedisAddr, config.AlternateRedisTestDB)
 
 	type testCase struct {
 		name        string

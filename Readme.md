@@ -17,9 +17,24 @@ Une API REST extensible et testable pour générer dynamiquement des séquences 
   | str1      | string | Remplace les multiples de `int1`    |
   | str2      | string | Remplace les multiples de `int2`    |
 
+  
+  ➤ Réponse :
+```json
+{
+  "response": ["1", "2", "fizz", "4", "buzz", "fizz", ...]
+}
+```
+
 - `GET /stats`  
   ➤ Retourne la requête FizzBuzz la plus fréquente + nombre d'appels.
-
+  
+  ➤ Response :
+```json
+{
+  "key": "int1=3&int2=5&limit=100&str1=fizz&str2=buzz",
+  "count": 42
+}
+```
 ---
 
 ## 🧱 Structure DDD
@@ -71,10 +86,13 @@ Tous les tests unitaires et intégration sont couverts (handlers, usecase, Redis
 Valeurs centralisées dans `config/config.go` :
 ```go
 const (
-	DefaultPort = ":8000"
-	DefaultRedisAddr = "redis:6379"
-	DefaultRedisDB = 1
+	DefaultPort          = ":8000"
+	DefaultRedisAddr     = "redis:6379"
+	LocalHostRedisAddr   = "localhost:6379"
+	DefaultRedisDB       = 1
+	AlternateRedisTestDB = 2
 )
+
 ```
 
 ## 🛠️ Makefile
