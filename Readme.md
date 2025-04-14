@@ -82,7 +82,7 @@ All unit and integration tests are covered (handlers, usecase, Redis, mapping...
 
 ## 📦 Configuration
 
-Valeurs centralisées dans `config/config.go` :
+Values ​​centralized in `config/config.go` :
 ```go
 const (
 	DefaultPort          = ":8000"
@@ -96,14 +96,15 @@ const (
 
 ## 🛠️ Makefile
 
-Commandes utiles :
+Useful commands :
 
 ```bash
-make run           # Lance l'app localement (Go)
-make test          # Lance tous les tests
-make up            # Démarre l'app et Redis via Docker
-make down          # Stoppe les services
-make kill          # Supprime containers, volumes, images et orphelins
-make logs          # Affiche les logs des services Docker
-make redis-cli     # Ouvre un shell Redis dans le container
+make run           # Run the app locally
+make test          # Run all tests
+make up            # Start FizzBuzz app and Redis from Docker
+make down          # Stop all containers
+make restart       # Stop and clean Redis volume, then rebuild and restart
+make kill          # Remove containers, volumes
+make logs          # Displays Docker service logs
+make redis-cli     # Opens a Redis shell in the container
 ```
