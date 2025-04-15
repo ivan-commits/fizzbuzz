@@ -2,8 +2,8 @@
 
 An extensible and testable REST API to dynamically generate FizzBuzz sequences.
 
----
 
+---
 ## 🚀 Getting Started
 
 ```bash
@@ -16,7 +16,7 @@ App will be available at: http://localhost:8000
 
 ---
 
-## 🚀 Endpoints
+## 🌐 Endpoints
 
 - `GET /fizzbuzz`  
   ➤ Generates the FizzBuzz sequence according to your settings:
