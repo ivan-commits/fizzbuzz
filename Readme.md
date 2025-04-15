@@ -4,6 +4,18 @@ An extensible and testable REST API to dynamically generate FizzBuzz sequences.
 
 ---
 
+## 🚀 Getting Started
+
+```bash
+git clone git@github.com:ivan-commits/fizzbuzz.git
+cd fizzbuzz
+make start          # Start the app and Redis via Docker
+```
+
+App will be available at: http://localhost:8000
+
+---
+
 ## 🚀 Endpoints
 
 - `GET /fizzbuzz`  
@@ -126,10 +138,9 @@ const (
 Useful commands :
 
 ```bash
-make run           # Run the app locally
 make test          # Run all tests
-make up            # Start FizzBuzz app and Redis from Docker
-make down          # Stop all containers
+make start         # Start FizzBuzz app and Redis from Docker
+make stop          # Stop all containers
 make restart       # Stop and clean Redis volume, then rebuild and restart
 make kill          # Remove containers, volumes
 make logs          # Displays Docker service logs

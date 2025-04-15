@@ -1,15 +1,12 @@
 # Makefile – FizzBuzz API
 
-run:
-	go run ./cmd/server
-
 test:
 	go test ./...
 
-up:
+start:
 	docker compose up --build -d
 
-down:
+stop:
 	docker compose down
 
 restart:
