@@ -19,7 +19,7 @@ func (ms MockStatsRepository) IncrementKey(ctx context.Context, key string) erro
 }
 
 func (ms MockStatsRepository) GetMostUsedKey(ctx context.Context) (string, int, error) {
-	return "key", 2, nil
+	return "test", 2, nil
 }
 
 func TestMainRouter_Endpoints(t *testing.T) {
@@ -34,7 +34,8 @@ func TestMainRouter_Endpoints(t *testing.T) {
 		req := httptest.NewRequest("GET", "/stats", nil)
 		w := httptest.NewRecorder()
 		r.ServeHTTP(w, req)
-		assert.True(t, w.Code == http.StatusOK || w.Code == http.StatusBadRequest)
+		assert.JSONEq(t, `{"key":"test","count":2}`, w.Body.String())
+		assert.True(t, w.Code == http.StatusOK)
 	})
 
 	t.Run("GET /fizzbuzz", func(t *testing.T) {
