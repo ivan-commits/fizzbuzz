@@ -95,7 +95,7 @@ func TestHandler_HandleStats(t *testing.T) {
 	gin.SetMode(gin.TestMode)
 
 	s := new(MockStatsRepository)
-	s.On("GetMostUsedKey").Return("key", 10, nil)
+	s.On("GetMostUsedKey").Return("test", 10, nil)
 
 	h := NewHandler(nil, s, nil)
 	r := gin.Default()
@@ -106,4 +106,5 @@ func TestHandler_HandleStats(t *testing.T) {
 
 	r.ServeHTTP(w, req)
 	assert.Equal(t, http.StatusOK, w.Code)
+	assert.JSONEq(t, `{"key":"test","count":10}`, w.Body.String())
 }
