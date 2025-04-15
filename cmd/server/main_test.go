@@ -38,6 +38,13 @@ func TestMainRouter_Endpoints(t *testing.T) {
 		assert.True(t, w.Code == http.StatusOK)
 	})
 
+	t.Run("POST /stats", func(t *testing.T) {
+		req := httptest.NewRequest("POST", "/stats", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+		assert.True(t, w.Code == http.StatusNotFound)
+	})
+
 	t.Run("GET /fizzbuzz", func(t *testing.T) {
 		req := httptest.NewRequest("GET", "/fizzbuzz?int1=3&int2=5&limit=15&str1=fizz&str2=buzz", nil)
 		w := httptest.NewRecorder()
@@ -50,5 +57,12 @@ func TestMainRouter_Endpoints(t *testing.T) {
 		w := httptest.NewRecorder()
 		r.ServeHTTP(w, req)
 		assert.Equal(t, http.StatusBadRequest, w.Code)
+	})
+
+	t.Run("POST /fizzbuzz", func(t *testing.T) {
+		req := httptest.NewRequest("POST", "/fizzbuzz?int1=3&int2=5&limit=15&str1=fizz&str2=buzz", nil)
+		w := httptest.NewRecorder()
+		r.ServeHTTP(w, req)
+		assert.Equal(t, http.StatusNotFound, w.Code)
 	})
 }
