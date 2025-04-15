@@ -36,21 +36,55 @@ An extensible and testable REST API to dynamically generate FizzBuzz sequences.
 }
 ```
 ---
-
-## 🧱 Structure DDD
+## 📁 Project Structure
 
 ```
-internal/
-├── fizzbuzz/
-│   ├── domain/        # Business interfaces (contract) & DTOs
-│   ├── usecase/       # Business logic implemented
-│   ├── adapter/redis/ # Redis Persistence (Stats)
-│   └── interface/
-│       └── http/
-│           ├── handler/ # Handlers REST
-│           └── mapper/  # Mapping HTTP <-> Domain
+.
+├── cmd/
+│   ├── router/                     # Sets up Gin router with injected dependencies
+│   │   └── router.go
+│   └── server/                     # App entry point
+│       ├── main.go
+│       └── main_test.go
+├── config/                         # Application configuration constants (e.g., Redis addr)
+├── internal/
+│   └── fizzbuzz/
+│       ├── adapter/
+│       │   └── redis/              # Redis implementation of StatsRepository
+│       │       ├── redis_stats_repository.go
+│       │       └── redis_stats_repository_test.go
+│       ├── domain/
+│       │   ├── contract/           # Domain contract (ports,interfaces): Generator, Validator, Stats
+│       │   │   ├── generator.go
+│       │   │   ├── stats.go
+│       │   │   └── validator.go
+│       │   └── model/              # Domain model (DTOs)
+│       │       └── fizzbuzz_dto.go
+│       ├── interface/
+│       │   └── http/
+│       │       ├── handler/        # HTTP handlers
+│       │       │   ├── fizzbuzz_handler.go
+│       │       │   └── fizzbuzz_handler_test.go
+│       │       └── mapper/         # Maps HTTP <-> Domain (requests and responses)
+│       │           ├── fizzbuzz_mapper.go
+│       │           ├── fizzbuzz_mapper_test.go
+│       │           ├── fizzbuzz_response.go
+│       │           ├── fizzbuzz_response_test.go
+│       │           ├── stats_response.go
+│       │           └── stats_response_test.go
+│       └── usecase/                # Core business logic implementation
+│           ├── default_generator.go
+│           ├── default_generator_test.go
+│           ├── default_validator.go
+│           └── default_validator_test.go
+├── redis.conf                     # Redis config (prod tuning)
+├── docker-compose.yml             # Docker setup (API + Redis)
+├── Dockerfile                     # Multi-stage production build
+├── Makefile                       # Dev & build commands
+├── go.mod
+├── go.sum
+└── Readme.md
 ```
-
 ---
 
 ## 🐳 Docker
@@ -60,13 +94,6 @@ docker compose up --build
 ```
 
 Redis listens on `localhost:6379`, the API on `localhost:8000`.
-
----
-
-## ⚙️ Production
-
-- `vm.overcommit_memory=1` recommandé pour Redis
-- `GIN_MODE=release` (already injected in `docker-compose.yml`)
 
 ---
 
